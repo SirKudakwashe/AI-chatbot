@@ -1,7 +1,7 @@
 import { openai } from "./openai.js";
 import { Document } from "langchain/document";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai.js";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
 const movies = [
   {
@@ -40,3 +40,25 @@ const movies = [
     description: `Features futuristic space travel with high stakes`,
   },
 ];
+
+const createStore = () =>
+  MemoryVectorStore.fromDocuments(
+    movies.map(
+      (movie) =>
+        new Document({
+          // this is the data we want to turn into a vector
+          pageContent: `Title: ${movie.title}\n ${movie.description}\n`,
+          metadata: { source: movie.id, movie: movie.title },
+        })
+    ),
+    new OpenAIEmbeddings()
+  );
+
+const search = async (query, count = 1) => {
+  const store = await createStore();
+  return store.similaritySearch(query, count);
+};
+
+console.log(await search(" a movie that will make me feel like am crazy"));
+console.log(await search(" a movie that will make my kid happy"));
+console.log(await search(" a movie that will confuse me "));
