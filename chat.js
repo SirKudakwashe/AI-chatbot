@@ -37,7 +37,7 @@ const chat = () => {
       const message = formatMessage(userInput);
       const response = await newMessage(history, message);
       history.push(message, response);
-      console.log(`\n\nAI: ${response.content}`);
+      console.log(`\n\nAI: ${response.content}\n\n`);
       start();
     });
   };
