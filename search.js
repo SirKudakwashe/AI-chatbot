@@ -51,14 +51,13 @@ const createStore = () =>
           metadata: { source: movie.id, movie: movie.title },
         })
     ),
+    // making a request to openai and creates embeddings
     new OpenAIEmbeddings()
   );
 
-const search = async (query, count = 1) => {
+const search = async (query, count = 2) => {
   const store = await createStore();
   return store.similaritySearch(query, count);
 };
 
 console.log(await search(" a movie that will make me feel like am crazy"));
-console.log(await search(" a movie that will make my kid happy"));
-console.log(await search(" a movie that will confuse me "));
