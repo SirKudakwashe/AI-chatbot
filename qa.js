@@ -7,6 +7,7 @@ import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 
 const question = process.argv[2] || "hi";
+const video = `https://youtu.be/zR_iuq2evXo?si=cG8rODgRgXOx9_Cn`;
 
 const createStore = (docs) =>
   MemoryVectorStore.fromDocuments(docs, new OpenAIEmbeddings());
@@ -61,4 +62,11 @@ const query = async () => {
       },
     ],
   });
+  console.log(
+    `Answer: ${response.choices[0].message.content}\n\nSources: ${results
+      .map((r) => r.metadata.source)
+      .join(", ")}`
+  );
 };
+
+query();
