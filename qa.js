@@ -49,7 +49,7 @@ const query = async () => {
   const results = await store.similaritySearch(question, 2);
 
   const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo-16k",
+    model: "gpt-4",
     temperature: 0,
     messages: [
       { role: "assistant", content: "You are an AI assistant" },
